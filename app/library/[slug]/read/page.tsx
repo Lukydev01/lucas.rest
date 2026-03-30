@@ -18,7 +18,7 @@ export default async function ReadPage({
 
   if (!entry) return notFound();
 
-  const mainPdf = entry.mediaAssets.find((asset) => asset.type === "pdf");
+  const mainPdf = entry.mediaAssets.find((asset: any) => asset.type === "pdf");
 
   if (!mainPdf) return notFound();
 

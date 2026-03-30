@@ -129,7 +129,7 @@ export default async function ManageMediaPage({
               No seasons yet.
             </div>
           ) : (
-            entry.seasons.map((season) => (
+            entry.seasons.map((season: any) => (
               <div
                 key={season.id}
                 className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
@@ -163,7 +163,7 @@ export default async function ManageMediaPage({
 
                 {season.episodes.length > 0 && (
                   <div className="mb-6 space-y-6">
-                    {season.episodes.map((episode) => (
+                    {season.episodes.map((episode: any) => (
                       <div
                         key={episode.id}
                         className="rounded-2xl border border-white/10 bg-white/[0.02] p-5"

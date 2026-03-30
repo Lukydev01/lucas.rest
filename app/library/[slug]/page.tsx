@@ -43,8 +43,8 @@ export default async function EntryPage({
 
   if (!entry) return notFound();
 
-  const mainVideo = entry.mediaAssets.find((asset) => asset.type === "video");
-  const mainPdf = entry.mediaAssets.find((asset) => asset.type === "pdf");
+  const mainVideo = entry.mediaAssets.find((asset: any) => asset.type === "video");
+const mainPdf = entry.mediaAssets.find((asset: any) => asset.type === "pdf");
   const isSeriesLike = entry.kind === "series" || entry.kind === "anime";
 
   return (
@@ -119,7 +119,7 @@ export default async function EntryPage({
           )}
 
           <div className="mb-10 flex flex-wrap gap-2">
-            {entry.tags.map((t) => (
+            {entry.tags.map((t: any) => (
               <Link
                 key={t.tag.id}
                 href={`/tags/${t.tag.slug}`}
@@ -172,7 +172,7 @@ export default async function EntryPage({
 
           {isSeriesLike && entry.seasons.length > 0 && (
             <div className="space-y-6">
-              {entry.seasons.map((season) => (
+              {entry.seasons.map((season: any) => (
                 <div
                   key={season.id}
                   className="rounded-2xl border border-white/10 bg-white/[0.02] p-5"
@@ -188,7 +188,7 @@ export default async function EntryPage({
                     <p className="text-sm text-neutral-500">No episodes yet.</p>
                   ) : (
                     <div className="flex flex-wrap gap-2">
-                      {season.episodes.map((episode) => (
+                      {season.episodes.map((episode: any) => (
                         <Link
                           key={episode.id}
                           href={`/library/${entry.slug}/episodes/${episode.id}`}

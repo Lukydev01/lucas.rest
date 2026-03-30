@@ -18,7 +18,7 @@ export default async function WatchPage({
 
   if (!entry) return notFound();
 
-  const mainVideo = entry.mediaAssets.find((asset) => asset.type === "video");
+  const mainVideo = entry.mediaAssets.find((asset: any) => asset.type === "video");
 
   if (!mainVideo) return notFound();
 
