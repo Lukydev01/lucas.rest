@@ -42,7 +42,7 @@ export default async function LibraryPage() {
         </div>
       ) : (
         <div className="grid gap-5 sm:grid-cols-2">
-          {entries.map((entry) => (
+          {entries.map((entry: any) => (
             <Link key={entry.id} href={`/library/${entry.slug}`}>
               <Card className="h-full overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-colors hover:bg-white/[0.04]">
                 {entry.imageUrl ? (
@@ -72,7 +72,7 @@ export default async function LibraryPage() {
                       </span>
                     )}
 
-                    {entry.tags.slice(0, 2).map((entryTag) => (
+                    {entry.tags.slice(0, 2).map((entryTag: any) => (
                       <span
                         key={entryTag.tagId}
                         className="rounded-full border border-white/10 px-2.5 py-0.5 text-xs text-neutral-500"
