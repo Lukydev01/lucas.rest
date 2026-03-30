@@ -88,7 +88,7 @@ export default async function ManageMediaPage({
             Existing Media Assets
           </h2>
 
-          {entry.mediaAssets.map((asset) => (
+          {entry.mediaAssets.map((asset: any) => (
             <div
               key={asset.id}
               className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
