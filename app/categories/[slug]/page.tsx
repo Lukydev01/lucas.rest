@@ -57,7 +57,7 @@ export default async function CategoryPage({
         </div>
       ) : (
         <div className="grid gap-5 sm:grid-cols-2">
-          {category.entries.map((entry) => (
+          {category.entries.map((entry: any) => (
             <Link key={entry.id} href={`/library/${entry.slug}`}>
               <Card className="h-full overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-colors hover:bg-white/[0.04]">
                 {entry.imageUrl ? (
