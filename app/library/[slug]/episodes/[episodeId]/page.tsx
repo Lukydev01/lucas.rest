@@ -29,8 +29,8 @@ export default async function EpisodePage({
 
   if (!entry) return notFound();
 
-  const season = entry.seasons.find((s) =>
-    s.episodes.some((ep) => ep.id === episodeId)
+  const season = entry.seasons.find((s: any) =>
+    s.episodes.some((ep: any) => ep.id === episodeId)
   );
 
   if (!season) return notFound();
