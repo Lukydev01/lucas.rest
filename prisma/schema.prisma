@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum EntryKind {
+  movie
+  series
+  book
+  anime
+  other
+}
+
+enum MediaAssetType {
+  video
+  pdf
+  image
+  audio
+  other
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+
+  entries   Entry[]
+}
+
+model Entry {
+  id           String      @id @default(cuid())
+  title        String
+  slug         String      @unique
+  kind         EntryKind   @default(other)
+  description  String?
+  imageUrl     String?
+  personalNote String?
+  year         Int?
+  creator      String?
+  categoryId   String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  category     Category    @relation(fields: [categoryId], references: [id])
+  tags         EntryTag[]
+  mediaAssets  MediaAsset[]
+  seasons      Season[]
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+
+  entries   EntryTag[]
+}
+
+model EntryTag {
+  entryId String
+  tagId   String
+
+  entry Entry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  tag   Tag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([entryId, tagId])
+}
+
+model MediaAsset {
+  id        String         @id @default(cuid())
+  entryId   String
+  type      MediaAssetType @default(other)
+  title     String?
+  url       String
+  mimeType  String?
+  createdAt DateTime       @default(now())
+
+  entry     Entry          @relation(fields: [entryId], references: [id], onDelete: Cascade)
+}
+
+model Season {
+  id        String    @id @default(cuid())
+  entryId   String
+  number    Int
+  title     String?
+  createdAt DateTime  @default(now())
+
+  entry     Entry     @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  episodes  Episode[]
+
+  @@unique([entryId, number])
+}
+
+model Episode {
+  id           String    @id @default(cuid())
+  seasonId     String
+  number       Int
+  title        String
+  description  String?
+  videoUrl     String
+  thumbnailUrl String?
+  createdAt    DateTime  @default(now())
+
+  season       Season    @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+
+  @@unique([seasonId, number])
+}
