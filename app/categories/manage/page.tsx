@@ -56,7 +56,7 @@ export default async function ManageCategoriesPage() {
             No categories found yet.
           </div>
         ) : (
-          categories.map((category) => (
+          categories.map((category: any) => (
             <div
               key={category.id}
               className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
