@@ -35,7 +35,7 @@ export default async function TagPage({
     return notFound();
   }
 
-  const entries = tag.entries.map((entryTag) => entryTag.entry);
+  const entries = tag.entries.map((entryTag: any) => entryTag.entry);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-20">
@@ -62,7 +62,7 @@ export default async function TagPage({
         </div>
       ) : (
         <div className="grid gap-5 sm:grid-cols-2">
-          {entries.map((entry) => (
+          {entries.map((entry: any) => (
             <Link key={entry.id} href={`/library/${entry.slug}`}>
               <Card className="h-full overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-colors hover:bg-white/[0.04]">
                 {entry.imageUrl ? (

@@ -56,7 +56,7 @@ export default async function ManageTagsPage() {
             No tags found yet.
           </div>
         ) : (
-          tags.map((tag) => (
+          tags.map((tag: any) => (
             <div
               key={tag.id}
               className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"

@@ -128,7 +128,7 @@ export default async function TagsPage({
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {sortedTags.map((tag) => (
+          {sortedTags.map((tag: any) => (
             <Link
               key={tag.id}
               href={`/tags/${tag.slug}`}
