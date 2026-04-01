@@ -1,8 +1,8 @@
 "use client";
 
-interface Props {
+type Props = {
   embedUrl: string;
-}
+};
 
 export default function EmbedPlayer({ embedUrl }: Props) {
   const normalizedUrl = embedUrl.startsWith("//")
@@ -10,17 +10,13 @@ export default function EmbedPlayer({ embedUrl }: Props) {
     : embedUrl;
 
   return (
-    <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black">
-      <iframe
-        src={normalizedUrl}
-        className="absolute inset-0 h-full w-full"
-        scrolling="no"
-        frameBorder="0"
-        allow="fullscreen; autoplay"
-        allowFullScreen
-        loading="lazy"
-        referrerPolicy="strict-origin-when-cross-origin"
-      />
-    </div>
+    <iframe
+      src={normalizedUrl}
+      className="w-full min-h-[80vh] rounded-2xl"
+      allow="fullscreen *; autoplay *; encrypted-media *"
+      allowFullScreen
+      frameBorder="0"
+      scrolling="no"
+    />
   );
-}   
+}
