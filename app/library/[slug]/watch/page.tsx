@@ -2,8 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import UniversalVideoPlayer from "@/components/UniversalVideoPlayer";
-import VidmolyPlayer from "@/components/VidmolyPlayer";
-
+import EmbedPlayer from "@/components/EmbedPlayer";
 export default async function WatchPage({
   params,
 }: {
@@ -50,9 +49,11 @@ export default async function WatchPage({
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-black">
-        {mainVideo.url?.includes("vidmoly") ? (
-          <VidmolyPlayer embedUrl={mainVideo.url} />
-        ) : (
+      {mainVideo.url?.includes("vidmoly") ||
+ mainVideo.url?.includes("short.icu") ||
+ mainVideo.url?.includes("abyss") ? (
+  <EmbedPlayer embedUrl={mainVideo.url} />
+) : (
           <UniversalVideoPlayer
             videoId={mainVideo.youtubeId}
             src={mainVideo.url}
