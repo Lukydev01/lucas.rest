@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import UniversalVideoPlayer from "@/components/UniversalVideoPlayer";
+import VidmolyPlayer from "@/components/VidmolyPlayer";
 
 export default async function EpisodePage({
   params,
@@ -35,7 +37,9 @@ export default async function EpisodePage({
 
   if (!season) return notFound();
 
-  const episode = season.episodes.find((ep: any) => ep.id === episodeId);
+  const episode = season.episodes.find(
+    (ep: any) => ep.id === episodeId
+  );
 
   if (!episode) return notFound();
 
@@ -46,15 +50,17 @@ export default async function EpisodePage({
           <p className="mb-2 text-xs uppercase tracking-widest text-neutral-600">
             Episode
           </p>
+
           <h1
             className="text-3xl text-white md:text-4xl"
             style={{ fontFamily: "'Georgia', serif" }}
           >
             {entry.title}
           </h1>
+
           <p className="mt-2 text-sm text-neutral-400">
-            {season.title || `Season ${season.number}`} · Episode {episode.number}
-            : {episode.title}
+            {season.title || `Season ${season.number}`} · Episode{" "}
+            {episode.number}: {episode.title}
           </p>
         </div>
 
@@ -67,14 +73,14 @@ export default async function EpisodePage({
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-black">
-        <video
-          controls
-          className="aspect-video w-full"
-          src={episode.videoUrl}
-          preload="metadata"
-        >
-          Your browser does not support the video tag.
-        </video>
+        {episode.videoUrl?.includes("vidmoly") ? (
+          <VidmolyPlayer embedUrl={episode.videoUrl} />
+        ) : (
+          <UniversalVideoPlayer
+            videoId={episode.youtubeId}
+            src={episode.videoUrl}
+          />
+        )}
       </div>
 
       <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] p-5">
@@ -90,7 +96,9 @@ export default async function EpisodePage({
             {episode.description}
           </p>
         ) : (
-          <p className="text-neutral-500">No episode description yet.</p>
+          <p className="text-neutral-500">
+            No episode description yet.
+          </p>
         )}
       </div>
     </div>

@@ -59,16 +59,22 @@ export default function CreateMediaAssetForm({ entryId, entrySlug }: Props) {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-neutral-200">URL</label>
-        <Input name="url" placeholder="https://example.com/file.mp4" required />
-      </div>
+  <label className="text-sm font-medium text-neutral-200">
+    YouTube URL / Asset URL
+  </label>
+  <Input
+    name="youtubeUrl"
+    placeholder="https://www.youtube.com/watch?v=..."
+    required
+  />
+</div>
 
       <div className="space-y-2">
         <label className="text-sm font-medium text-neutral-200">MIME Type</label>
         <Input
-          name="mimeType"
-          placeholder="e.g. video/mp4, application/pdf"
-        />
+  name="mimeType"
+  placeholder="e.g. video/youtube, application/pdf"
+/>
       </div>
 
       <SubmitButton idleText="Add Media" pendingText="Adding..." />

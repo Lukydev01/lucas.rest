@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { extractYoutubeId } from "@/lib/youtube";
 
 export type CreateEntryState = {
   error?: string;
@@ -536,30 +537,49 @@ export async function createEpisode(
   const entrySlug = String(formData.get("entrySlug") || "").trim();
   const title = String(formData.get("title") || "").trim();
   const description = String(formData.get("description") || "").trim();
-  const videoUrl = String(formData.get("videoUrl") || "").trim();
+  const youtubeUrl = String(formData.get("youtubeUrl") || "").trim();
   const thumbnailUrl = String(formData.get("thumbnailUrl") || "").trim();
   const number = parseOptionalNumber(formData.get("number"));
-
-  if (!seasonId || !entrySlug) return { error: "Missing season reference." };
-  if (!title) return { error: "Episode title is required." };
-  if (!videoUrl) return { error: "Episode video URL is required." };
-  if (number === null) return { error: "Episode number is required." };
-
+  
+  if (!seasonId || !entrySlug) {
+    return { error: "Missing season reference." };
+  }
+  
+  if (!title) {
+    return { error: "Episode title is required." };
+  }
+  
+  if (!youtubeUrl) {
+    return { error: "YouTube URL is required." };
+  }
+  
+  const youtubeId = extractYoutubeId(youtubeUrl);
+  
+  if (!youtubeId) {
+    return { error: "Invalid YouTube URL." };
+  }
+  
+  if (number === null) {
+    return { error: "Episode number is required." };
+  }
+  
   const existing = await prisma.episode.findFirst({
     where: { seasonId, number },
   });
-
+  
   if (existing) {
     return { error: "This episode number already exists in the season." };
   }
-
+  
   await prisma.episode.create({
     data: {
       seasonId,
       number,
       title,
       description: description || null,
-      videoUrl,
+      youtubeId,
+      sourceType: "youtube",
+      videoUrl: null,
       thumbnailUrl: thumbnailUrl || null,
     },
   });
@@ -577,15 +597,15 @@ export async function updateMediaAsset(
   const entrySlug = String(formData.get("entrySlug") || "").trim();
   const typeInput = String(formData.get("type") || "").trim();
   const title = String(formData.get("title") || "").trim();
-  const url = String(formData.get("url") || "").trim();
+  const inputUrl = String(formData.get("youtubeUrl") || "").trim();
   const mimeType = String(formData.get("mimeType") || "").trim();
 
   if (!mediaAssetId || !entrySlug) {
     return { error: "Missing media asset reference." };
   }
 
-  if (!url) {
-    return { error: "Media URL is required." };
+  if (!inputUrl) {
+    return { error: "URL is required." };
   }
 
   const type =
@@ -597,15 +617,55 @@ export async function updateMediaAsset(
       ? typeInput
       : "other";
 
-  await prisma.mediaAsset.update({
-    where: { id: mediaAssetId },
-    data: {
-      type,
-      title: title || null,
-      url,
-      mimeType: mimeType || null,
-    },
-  });
+  // VIDEO
+  if (type === "video") {
+    // YouTube
+    if (inputUrl.includes("youtube.com") || inputUrl.includes("youtu.be")) {
+      const youtubeId = extractYoutubeId(inputUrl);
+
+      if (!youtubeId) {
+        return { error: "Invalid YouTube URL." };
+      }
+
+      await prisma.mediaAsset.update({
+        where: { id: mediaAssetId },
+        data: {
+          type,
+          title: title || null,
+          sourceType: "youtube",
+          youtubeId,
+          url: null,
+          mimeType: mimeType || null,
+        },
+      });
+    }
+    // Vidmoly / external embed
+    else {
+      await prisma.mediaAsset.update({
+        where: { id: mediaAssetId },
+        data: {
+          type,
+          title: title || null,
+          sourceType: "external",
+          youtubeId: null,
+          url: inputUrl,
+          mimeType: mimeType || null,
+        },
+      });
+    }
+  } else {
+    await prisma.mediaAsset.update({
+      where: { id: mediaAssetId },
+      data: {
+        type,
+        title: title || null,
+        sourceType: "external",
+        youtubeId: null,
+        url: inputUrl,
+        mimeType: mimeType || null,
+      },
+    });
+  }
 
   revalidatePath(`/library/${entrySlug}`);
   revalidatePath(`/library/${entrySlug}/media`);
@@ -714,6 +774,7 @@ export async function updateEpisode(
   const title = String(formData.get("title") || "").trim();
   const description = String(formData.get("description") || "").trim();
   const videoUrl = String(formData.get("videoUrl") || "").trim();
+  const youtubeUrl = String(formData.get("youtubeUrl") || "").trim();
   const thumbnailUrl = String(formData.get("thumbnailUrl") || "").trim();
 
   if (!episodeId || !seasonId || !entrySlug) {
@@ -730,6 +791,15 @@ export async function updateEpisode(
 
   if (!videoUrl) {
     return { error: "Episode video URL is required." };
+  }
+  if (!youtubeUrl) {
+    return { error: "YouTube URL is required." };
+  }
+  
+  const youtubeId = extractYoutubeId(youtubeUrl);
+  
+  if (!youtubeId) {
+    return { error: "Invalid YouTube URL." };
   }
 
   const existingEpisode = await prisma.episode.findUnique({
@@ -760,7 +830,9 @@ export async function updateEpisode(
       number,
       title,
       description: description || null,
-      videoUrl,
+      youtubeId,
+      sourceType: "youtube",
+      videoUrl: null,
       thumbnailUrl: thumbnailUrl || null,
     },
   });

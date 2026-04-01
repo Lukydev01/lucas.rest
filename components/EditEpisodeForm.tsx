@@ -10,7 +10,8 @@ type Episode = {
   number: number;
   title: string;
   description: string | null;
-  videoUrl: string;
+  videoUrl: string | null;
+  youtubeId?: string | null;
   thumbnailUrl: string | null;
 };
 
@@ -76,15 +77,20 @@ export default function EditEpisodeForm({
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-neutral-200">
-          Video URL
-        </label>
-        <Input
-          name="videoUrl"
-          defaultValue={episode.videoUrl}
-          required
-        />
-      </div>
+  <label className="text-sm font-medium text-neutral-200">
+    YouTube URL
+  </label>
+  <Input
+    name="youtubeUrl"
+    defaultValue={
+      episode.youtubeId
+        ? `https://www.youtube.com/watch?v=${episode.youtubeId}`
+        : ""
+    }
+    placeholder="https://www.youtube.com/watch?v=..."
+    required
+  />
+</div>
 
       <div className="space-y-2">
         <label className="text-sm font-medium text-neutral-200">

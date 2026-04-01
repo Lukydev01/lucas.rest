@@ -9,7 +9,8 @@ type MediaAsset = {
   id: string;
   type: "video" | "pdf" | "image" | "audio" | "other";
   title: string | null;
-  url: string;
+  url: string | null;
+  youtubeId?: string | null;
   mimeType: string | null;
 };
 
@@ -57,17 +58,28 @@ export default function EditMediaAssetForm({ asset, entrySlug }: Props) {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-neutral-200">URL</label>
-        <Input name="url" defaultValue={asset.url} placeholder="https://example.com/file.mp4" required />
-      </div>
+  <label className="text-sm font-medium text-neutral-200">
+    YouTube URL / Asset URL
+  </label>
+  <Input
+    name="youtubeUrl"
+    defaultValue={
+      asset.type === "video" && asset.youtubeId
+        ? `https://www.youtube.com/watch?v=${asset.youtubeId}`
+        : asset.url ?? ""
+    }
+    placeholder="https://www.youtube.com/watch?v=..."
+    required
+  />
+</div>
 
       <div className="space-y-2">
         <label className="text-sm font-medium text-neutral-200">MIME Type</label>
         <Input
-          name="mimeType"
-          defaultValue={asset.mimeType ?? ""}
-          placeholder="e.g. video/mp4, application/pdf"
-        />
+  name="mimeType"
+  defaultValue={asset.mimeType ?? ""}
+  placeholder="e.g. video/youtube, application/pdf"
+/>
       </div>
 
       <SubmitButton idleText="Save Asset" pendingText="Saving..." />

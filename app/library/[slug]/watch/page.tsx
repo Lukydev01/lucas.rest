@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import UniversalVideoPlayer from "@/components/UniversalVideoPlayer";
+import VidmolyPlayer from "@/components/VidmolyPlayer";
 
 export default async function WatchPage({
   params,
@@ -18,7 +20,9 @@ export default async function WatchPage({
 
   if (!entry) return notFound();
 
-  const mainVideo = entry.mediaAssets.find((asset: any) => asset.type === "video");
+  const mainVideo = entry.mediaAssets.find(
+    (asset: any) => asset.type === "video"
+  );
 
   if (!mainVideo) return notFound();
 
@@ -46,14 +50,14 @@ export default async function WatchPage({
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-black">
-        <video
-          controls
-          className="aspect-video w-full"
-          src={mainVideo.url}
-          preload="metadata"
-        >
-          Your browser does not support the video tag.
-        </video>
+        {mainVideo.url?.includes("vidmoly") ? (
+          <VidmolyPlayer embedUrl={mainVideo.url} />
+        ) : (
+          <UniversalVideoPlayer
+            videoId={mainVideo.youtubeId}
+            src={mainVideo.url}
+          />
+        )}
       </div>
 
       <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] p-5">
@@ -64,7 +68,9 @@ export default async function WatchPage({
           {mainVideo.title || "Main Video"}
         </p>
         {mainVideo.mimeType && (
-          <p className="mt-1 text-sm text-neutral-500">{mainVideo.mimeType}</p>
+          <p className="mt-1 text-sm text-neutral-500">
+            {mainVideo.mimeType}
+          </p>
         )}
       </div>
     </div>
