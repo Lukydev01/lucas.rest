@@ -464,11 +464,22 @@ export async function createMediaAsset(
   const entrySlug = String(formData.get("entrySlug") || "").trim();
   const typeInput = String(formData.get("type") || "").trim();
   const title = String(formData.get("title") || "").trim();
-  const url = String(formData.get("url") || "").trim();
+  const assetUrl = String(
+    formData.get("assetUrl") ||
+    formData.get("youtubeUrl") ||
+    formData.get("url") ||
+    ""
+  ).trim();
+  
   const mimeType = String(formData.get("mimeType") || "").trim();
-
-  if (!entryId || !entrySlug) return { error: "Missing entry reference." };
-  if (!url) return { error: "Media URL is required." };
+  
+  if (!entryId || !entrySlug) {
+    return { error: "Missing entry reference." };
+  }
+  
+  if (!assetUrl) {
+    return { error: "Media URL is required." };
+  }
 
   const type =
     typeInput === "video" ||
@@ -479,15 +490,15 @@ export async function createMediaAsset(
       ? typeInput
       : "other";
 
-  await prisma.mediaAsset.create({
-    data: {
-      entryId,
-      type,
-      title: title || null,
-      url,
-      mimeType: mimeType || null,
-    },
-  });
+      await prisma.mediaAsset.create({
+        data: {
+          entryId,
+          type,
+          title: title || null,
+          url: assetUrl,
+          mimeType: mimeType || null,
+        },
+      });
 
   revalidatePath(`/library/${entrySlug}`);
   revalidatePath(`/library/${entrySlug}/media`);
