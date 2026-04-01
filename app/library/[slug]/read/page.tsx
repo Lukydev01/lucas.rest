@@ -18,9 +18,11 @@ export default async function ReadPage({
 
   if (!entry) return notFound();
 
-  const mainPdf = entry.mediaAssets.find((asset: any) => asset.type === "pdf");
-
-  if (!mainPdf) return notFound();
+  const mainPdf = entry.mediaAssets.find(
+    (asset: any) => asset.type === "pdf" && asset.url
+  );
+  
+  if (!mainPdf?.url) return notFound();
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -38,12 +40,11 @@ export default async function ReadPage({
         </div>
 
         <div className="flex flex-wrap gap-3">
-          <a
-            href={mainPdf.url}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white transition hover:bg-white/[0.08]"
-          >
+        <a
+  href={mainPdf.url}
+  target="_blank"
+  rel="noreferrer"
+>
             Open in New Tab
           </a>
 
