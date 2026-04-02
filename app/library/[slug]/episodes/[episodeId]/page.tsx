@@ -43,8 +43,21 @@ export default async function EpisodePage({
 
   if (!episode) return notFound();
 
+  const currentIndex = season.episodes.findIndex(
+    (ep: any) => ep.id === episodeId
+  );
+
+  const previousEpisode =
+    currentIndex > 0 ? season.episodes[currentIndex - 1] : null;
+
+  const nextEpisode =
+    currentIndex < season.episodes.length - 1
+      ? season.episodes[currentIndex + 1]
+      : null;
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
+      {/* Header */}
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="mb-2 text-xs uppercase tracking-widest text-neutral-600">
@@ -64,20 +77,42 @@ export default async function EpisodePage({
           </p>
         </div>
 
-        <Link
-          href={`/library/${entry.slug}`}
-          className="rounded-full border border-white/10 px-4 py-2 text-sm text-neutral-300 transition hover:text-white"
-        >
-          Back to Entry
-        </Link>
+        {/* Navigation buttons */}
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href={`/library/${entry.slug}`}
+            className="rounded-full border border-white/10 px-4 py-2 text-sm text-neutral-300 transition hover:border-white/20 hover:text-white"
+          >
+            Back to Entry
+          </Link>
+
+          {previousEpisode && (
+            <Link
+              href={`/library/${entry.slug}/episodes/${previousEpisode.id}`}
+              className="rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 text-sm text-neutral-300 transition hover:border-white/20 hover:bg-white/[0.04] hover:text-white"
+            >
+              ← Previous
+            </Link>
+          )}
+
+          {nextEpisode && (
+            <Link
+              href={`/library/${entry.slug}/episodes/${nextEpisode.id}`}
+              className="rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 text-sm text-neutral-300 transition hover:border-white/20 hover:bg-white/[0.04] hover:text-white"
+            >
+              Next →
+            </Link>
+          )}
+        </div>
       </div>
 
+      {/* Video player */}
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-black">
-      {episode.videoUrl?.includes("vidmoly") ||
- episode.videoUrl?.includes("short.icu") ||
- episode.videoUrl?.includes("abyss") ? (
-  <EmbedPlayer embedUrl={episode.videoUrl} />
-) : (
+        {episode.videoUrl?.includes("vidmoly") ||
+        episode.videoUrl?.includes("short.icu") ||
+        episode.videoUrl?.includes("abyss") ? (
+          <EmbedPlayer embedUrl={episode.videoUrl} />
+        ) : (
           <UniversalVideoPlayer
             videoId={episode.youtubeId}
             src={episode.videoUrl}
@@ -85,6 +120,7 @@ export default async function EpisodePage({
         )}
       </div>
 
+      {/* Episode info */}
       <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] p-5">
         <h2
           className="mb-3 text-2xl text-white"

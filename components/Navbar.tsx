@@ -24,9 +24,8 @@ export default function Navbar({ isAdmin = false, authSlot }: Props) {
     : navLinks.filter((link) => link.href !== "/new");
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06] bg-[#0a0a0a]/80 backdrop-blur-md">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06] bg-black/40 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-6xl items-start justify-between px-6 py-4">
-        {/* Brand */}
         <Link
           href="/"
           className="font-serif text-lg tracking-tight text-white transition-opacity hover:opacity-70"
@@ -35,7 +34,6 @@ export default function Navbar({ isAdmin = false, authSlot }: Props) {
           lucas<span className="text-neutral-500">.rest</span>
         </Link>
 
-        {/* Nav links */}
         <ul className="flex items-center gap-1">
           {visibleLinks.map((link) => {
             const isActive = pathname === link.href;
@@ -57,17 +55,16 @@ export default function Navbar({ isAdmin = false, authSlot }: Props) {
           })}
         </ul>
 
-        {/* Right side */}
         <div className="flex items-center gap-3">
-  {authSlot}
+          {authSlot}
 
-  <Link
-    href={isAdmin ? "/new" : "/library"}
-    className="rounded-full bg-white px-5 py-2 text-xs font-medium tracking-wide text-black transition hover:bg-neutral-200"
-  >
-    {isAdmin ? "Create" : "Explore"}
-  </Link>
-</div>
+          <Link
+            href={isAdmin ? "/new" : "/library"}
+            className="rounded-full bg-white px-5 py-2 text-xs font-medium tracking-wide text-black transition hover:bg-neutral-200"
+          >
+            {isAdmin ? "Create" : "Explore"}
+          </Link>
+        </div>
       </nav>
     </header>
   );

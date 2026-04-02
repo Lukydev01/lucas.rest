@@ -19,9 +19,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen bg-[#0a0a0a] text-neutral-100 antialiased">
+      <body className="min-h-screen bg-black text-neutral-100 antialiased">
         <Navbar isAdmin={admin} authSlot={<AuthNav />} />
-        <main className="pt-24">{children}</main>
+        <main className="pt-20">{children}</main>
       </body>
     </html>
   );
