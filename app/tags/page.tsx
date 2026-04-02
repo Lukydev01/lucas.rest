@@ -55,7 +55,6 @@ export default async function TagsPage({
 
         <h1
           className="mb-4 text-4xl text-white md:text-5xl"
-          style={{ fontFamily: "'Georgia', serif" }}
         >
           Tags
         </h1>
@@ -138,7 +137,6 @@ export default async function TagsPage({
                 <div>
                   <p
                     className="text-lg text-white"
-                    style={{ fontFamily: "'Georgia', serif" }}
                   >
                     {tag.name}
                   </p>

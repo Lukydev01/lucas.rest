@@ -40,7 +40,6 @@ export default async function EditEntryPage({
         </p>
         <h1
           className="mb-4 text-4xl text-white md:text-5xl"
-          style={{ fontFamily: "'Georgia', serif" }}
         >
           Edit Entry
         </h1>

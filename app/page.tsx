@@ -46,9 +46,9 @@ export default function HomePage() {
           </span>
 
           <h1
-            className="mb-6 max-w-3xl text-5xl leading-[1.1] tracking-tight text-white md:text-7xl"
-            style={{ fontFamily: "'Georgia', serif" }}
-          >
+  className="mb-6 max-w-3xl text-5xl leading-[1.1] tracking-tight text-white md:text-7xl"
+  style={{ fontFamily: "var(--font-heading)" }}
+>
             A curated archive
             <br />
             <span className="text-neutral-500">
@@ -103,11 +103,11 @@ export default function HomePage() {
                   </span>
 
                   <CardTitle
-                    className="text-base text-white"
-                    style={{ fontFamily: "'Georgia', serif" }}
-                  >
-                    {f.title}
-                  </CardTitle>
+  className="text-base text-white"
+  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+>
+  {f.title}
+</CardTitle>
                 </CardHeader>
 
                 <CardContent>

@@ -44,7 +44,6 @@ export default function HomePage() {
 
           <h1
             className="mb-6 max-w-3xl text-5xl leading-[1.1] tracking-tight text-white md:text-7xl"
-            style={{ fontFamily: "'Georgia', serif" }}
           >
             A curated archive
             <br />

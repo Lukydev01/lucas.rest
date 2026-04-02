@@ -56,7 +56,6 @@ export default async function ManageMediaPage({
           </p>
           <h1
             className="mb-4 text-4xl text-white md:text-5xl"
-            style={{ fontFamily: "'Georgia', serif" }}
           >
             {entry.title}
           </h1>
@@ -83,7 +82,6 @@ export default async function ManageMediaPage({
         <div className="mb-10 space-y-6">
           <h2
             className="text-2xl text-white"
-            style={{ fontFamily: "'Georgia', serif" }}
           >
             Existing Media Assets
           </h2>
@@ -138,7 +136,6 @@ export default async function ManageMediaPage({
                   <div>
                     <h2
                       className="text-2xl text-white"
-                      style={{ fontFamily: "'Georgia', serif" }}
                     >
                       {season.title || `Season ${season.number}`}
                     </h2>

@@ -29,7 +29,6 @@ export default async function ManageCategoriesPage() {
           </p>
           <h1
             className="mb-4 text-4xl text-white md:text-5xl"
-            style={{ fontFamily: "'Georgia', serif" }}
           >
             Category Management
           </h1>
@@ -65,7 +64,6 @@ export default async function ManageCategoriesPage() {
                 <div>
                   <p
                     className="text-2xl text-white"
-                    style={{ fontFamily: "'Georgia', serif" }}
                   >
                     {category.name}
                   </p>

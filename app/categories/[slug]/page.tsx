@@ -40,7 +40,6 @@ export default async function CategoryPage({
 
         <h1
           className="mb-4 text-4xl text-white md:text-5xl"
-          style={{ fontFamily: "'Georgia', serif" }}
         >
           {category.name}
         </h1>
@@ -90,7 +89,6 @@ export default async function CategoryPage({
 
                   <CardTitle
                     className="text-lg leading-snug text-white"
-                    style={{ fontFamily: "'Georgia', serif" }}
                   >
                     {entry.title}
                   </CardTitle>

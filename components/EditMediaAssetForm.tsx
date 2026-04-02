@@ -59,7 +59,7 @@ export default function EditMediaAssetForm({ asset, entrySlug }: Props) {
 
       <div className="space-y-2">
   <label className="text-sm font-medium text-neutral-200">
-    YouTube URL / Asset URL
+    Asset URL
   </label>
   <Input
     name="youtubeUrl"
@@ -68,7 +68,7 @@ export default function EditMediaAssetForm({ asset, entrySlug }: Props) {
         ? `https://www.youtube.com/watch?v=${asset.youtubeId}`
         : asset.url ?? ""
     }
-    placeholder="https://www.youtube.com/watch?v=..."
+    placeholder="https://www.site.com/link..."
     required
   />
 </div>

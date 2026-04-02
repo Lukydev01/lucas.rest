@@ -26,7 +26,6 @@ export default async function LibraryPage() {
         </p>
         <h1
           className="mb-4 text-4xl text-white md:text-5xl"
-          style={{ fontFamily: "'Georgia', serif" }}
         >
           Library
         </h1>
@@ -83,11 +82,11 @@ export default async function LibraryPage() {
                   </div>
 
                   <CardTitle
-                    className="text-lg leading-snug text-white"
-                    style={{ fontFamily: "'Georgia', serif" }}
-                  >
-                    {entry.title}
-                  </CardTitle>
+  className="text-base text-white"
+  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+>
+  {entry.title}
+</CardTitle>
 
                   {entry.creator && (
                     <p className="text-sm text-neutral-500">{entry.creator}</p>

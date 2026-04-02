@@ -9,7 +9,6 @@ export default function LoginPage() {
         </p>
         <h1
           className="mb-4 text-4xl text-white"
-          style={{ fontFamily: "'Georgia', serif" }}
         >
           Sign In
         </h1>

@@ -33,7 +33,6 @@ export default async function ReadPage({
           </p>
           <h1
             className="text-3xl text-white md:text-4xl"
-            style={{ fontFamily: "'Georgia', serif" }}
           >
             {entry.title}
           </h1>

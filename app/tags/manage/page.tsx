@@ -29,7 +29,6 @@ export default async function ManageTagsPage() {
           </p>
           <h1
             className="mb-4 text-4xl text-white md:text-5xl"
-            style={{ fontFamily: "'Georgia', serif" }}
           >
             Tag Management
           </h1>
@@ -65,7 +64,6 @@ export default async function ManageTagsPage() {
                 <div>
                   <p
                     className="text-2xl text-white"
-                    style={{ fontFamily: "'Georgia', serif" }}
                   >
                     {tag.name}
                   </p>

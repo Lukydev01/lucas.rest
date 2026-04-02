@@ -22,7 +22,6 @@ export default async function NewEntryPage() {
         </p>
         <h1
           className="mb-4 text-4xl text-white md:text-5xl"
-          style={{ fontFamily: "'Georgia', serif" }}
         >
           New Entry
         </h1>

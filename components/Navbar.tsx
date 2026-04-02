@@ -29,7 +29,6 @@ export default function Navbar({ isAdmin = false, authSlot }: Props) {
         <Link
           href="/"
           className="font-serif text-lg tracking-tight text-white transition-opacity hover:opacity-70"
-          style={{ fontFamily: "'Georgia', serif" }}
         >
           lucas<span className="text-neutral-500">.rest</span>
         </Link>
