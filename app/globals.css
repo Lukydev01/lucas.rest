@@ -117,14 +117,32 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
+@keyframes fall {
+  0% {
+    transform: translateY(-25vh) translateX(0px);
+    opacity: 0;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  10% {
+    opacity: 0.06;
   }
-  html {
-    @apply font-sans;
+
+  50% {
+    transform: translateY(50vh) translateX(8px);
   }
+
+  90% {
+    opacity: 0.05;
+  }
+
+  100% {
+    transform: translateY(130vh) translateX(-6px);
+    opacity: 0;
+  }
+}
+
+.animate-fall {
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }

@@ -1,144 +1,117 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { prisma } from "@/lib/prisma";
-import UniversalVideoPlayer from "@/components/UniversalVideoPlayer";
-import EmbedPlayer from "@/components/EmbedPlayer";
+import FloatingTextBackground from "@/components/FloatingTextBackground";
 
-export default async function EpisodePage({
-  params,
-}: {
-  params: Promise<{ slug: string; episodeId: string }>;
-}) {
-  const { slug, episodeId } = await params;
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-  const entry = await prisma.entry.findUnique({
-    where: { slug },
-    include: {
-      seasons: {
-        include: {
-          episodes: {
-            orderBy: {
-              number: "asc",
-            },
-          },
-        },
-        orderBy: {
-          number: "asc",
-        },
-      },
-    },
-  });
+const features = [
+  {
+    title: "Media Library",
+    icon: "◈",
+    description:
+      "A growing collection of anime, films, series, books, and more — each entry carefully considered and catalogued.",
+  },
+  {
+    title: "Categories & Tags",
+    icon: "◇",
+    description:
+      "Navigate the archive by medium, genre, or mood. Find exactly what you're looking for, or discover something unexpected.",
+  },
+  {
+    title: "Personal Curation",
+    icon: "◉",
+    description:
+      "Every entry here was chosen deliberately. No algorithms, no trending content — just things that earned their place.",
+  },
+];
 
-  if (!entry) return notFound();
-
-  const season = entry.seasons.find((s: any) =>
-    s.episodes.some((ep: any) => ep.id === episodeId)
-  );
-
-  if (!season) return notFound();
-
-  const episode = season.episodes.find(
-    (ep: any) => ep.id === episodeId
-  );
-
-  if (!episode) return notFound();
-
-  const currentIndex = season.episodes.findIndex(
-    (ep: any) => ep.id === episodeId
-  );
-
-  const previousEpisode =
-    currentIndex > 0 ? season.episodes[currentIndex - 1] : null;
-
-  const nextEpisode =
-    currentIndex < season.episodes.length - 1
-      ? season.episodes[currentIndex + 1]
-      : null;
-
+export default function HomePage() {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-12">
-      {/* Header */}
-      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p className="mb-2 text-xs uppercase tracking-widest text-neutral-600">
-            Episode
-          </p>
+    <main className="relative min-h-screen bg-black">
+      <FloatingTextBackground />
+
+      <div className="relative z-10 mx-auto max-w-6xl px-6">
+        <section className="flex min-h-[88vh] flex-col items-center justify-center text-center">
+          <span className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-widest text-neutral-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-neutral-400" />
+            MyRepository
+          </span>
 
           <h1
-            className="text-3xl text-white md:text-4xl"
+            className="mb-6 max-w-3xl text-5xl leading-[1.1] tracking-tight text-white md:text-7xl"
             style={{ fontFamily: "'Georgia', serif" }}
           >
-            {entry.title}
+            A curated archive
+            <br />
+            <span className="text-neutral-500">
+              of things worth keeping.
+            </span>
           </h1>
 
-          <p className="mt-2 text-sm text-neutral-400">
-            {season.title || `Season ${season.number}`} · Episode{" "}
-            {episode.number}: {episode.title}
+          <p className="mb-10 max-w-xl text-base leading-relaxed text-neutral-400">
+            Films, anime, series, books, and other media — organised with
+            intention. This is a personal library, not a recommendation engine.
           </p>
-        </div>
 
-        {/* Navigation buttons */}
-        <div className="flex flex-wrap items-center gap-3">
-          <Link
-            href={`/library/${entry.slug}`}
-            className="rounded-full border border-white/10 px-4 py-2 text-sm text-neutral-300 transition hover:border-white/20 hover:text-white"
-          >
-            Back to Entry
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Button asChild size="lg" className="rounded-full bg-white px-8 text-sm font-medium text-black hover:bg-neutral-200">
+              <Link href="/library">Browse Library</Link>
+            </Button>
 
-          {previousEpisode && (
-            <Link
-              href={`/library/${entry.slug}/episodes/${previousEpisode.id}`}
-              className="rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 text-sm text-neutral-300 transition hover:border-white/20 hover:bg-white/[0.04] hover:text-white"
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="rounded-full border-white/10 bg-transparent px-8 text-sm text-neutral-300 hover:bg-white/5 hover:text-white"
             >
-              ← Previous
-            </Link>
-          )}
+              <Link href="/categories">Explore Categories</Link>
+            </Button>
+          </div>
 
-          {nextEpisode && (
-            <Link
-              href={`/library/${entry.slug}/episodes/${nextEpisode.id}`}
-              className="rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 text-sm text-neutral-300 transition hover:border-white/20 hover:bg-white/[0.04] hover:text-white"
-            >
-              Next →
-            </Link>
-          )}
-        </div>
+          <div className="mt-24 h-px w-24 bg-white/10" />
+        </section>
+
+        <section className="pb-32">
+          <div className="mb-12 text-center">
+            <p className="text-xs uppercase tracking-widest text-neutral-600">
+              What's inside
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {features.map((f) => (
+              <Card
+                key={f.title}
+                className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-colors hover:bg-white/[0.04]"
+              >
+                <CardHeader className="pb-3">
+                  <span className="mb-4 block text-2xl text-neutral-500 transition-colors group-hover:text-neutral-300">
+                    {f.icon}
+                  </span>
+
+                  <CardTitle
+                    className="text-base text-white"
+                    style={{ fontFamily: "'Georgia', serif" }}
+                  >
+                    {f.title}
+                  </CardTitle>
+                </CardHeader>
+
+                <CardContent>
+                  <p className="text-sm leading-relaxed text-neutral-500">
+                    {f.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
       </div>
-
-      {/* Video player */}
-      <div className="overflow-hidden rounded-2xl border border-white/10 bg-black">
-        {episode.videoUrl?.includes("vidmoly") ||
-        episode.videoUrl?.includes("short.icu") ||
-        episode.videoUrl?.includes("abyss") ? (
-          <EmbedPlayer embedUrl={episode.videoUrl} />
-        ) : (
-          <UniversalVideoPlayer
-            videoId={episode.youtubeId}
-            src={episode.videoUrl}
-          />
-        )}
-      </div>
-
-      {/* Episode info */}
-      <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] p-5">
-        <h2
-          className="mb-3 text-2xl text-white"
-          style={{ fontFamily: "'Georgia', serif" }}
-        >
-          {episode.title}
-        </h2>
-
-        {episode.description ? (
-          <p className="leading-relaxed text-neutral-400">
-            {episode.description}
-          </p>
-        ) : (
-          <p className="text-neutral-500">
-            No episode description yet.
-          </p>
-        )}
-      </div>
-    </div>
+    </main>
   );
 }

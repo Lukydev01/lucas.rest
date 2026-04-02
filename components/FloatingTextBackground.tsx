@@ -1,47 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-type FloatingText = {
-  id: number;
-  left: number;
-  size: number;
-  duration: number;
-  delay: number;
-  opacity: number;
-};
-
-function generateTexts(): FloatingText[] {
-  return Array.from({ length: 12 }, (_, i) => ({
-    id: i,
-    left: Math.random() * 100,
-    size: 14 + Math.random() * 22,
-    duration: 10 + Math.random() * 8,
-    delay: -Math.random() * 8,
-    opacity: 0.04 + Math.random() * 0.08,
-  }));
-}
+const texts = Array.from({ length: 28 }, (_, i) => ({
+  id: i,
+  left: `${(i * 3.7 + (i % 5) * 8) % 100}%`,
+  size: `${14 + ((i * 7) % 18)}px`,
+  duration: `${12 + (i % 8)}s`,
+  delay: `-${(i * 1.7) % 12}s`,
+  opacity: 0.03 + ((i % 5) * 0.01),
+}));
 
 export default function FloatingTextBackground() {
-  const [texts, setTexts] = useState<FloatingText[]>([]);
-
-  useEffect(() => {
-    setTexts(generateTexts());
-  }, []);
-
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {texts.map((text) => (
         <span
           key={text.id}
-          className="absolute whitespace-nowrap text-white font-serif animate-fall"
+          className="absolute whitespace-nowrap font-serif text-white animate-fall select-none"
           style={{
-            left: `${text.left}%`,
-            top: "-10%",
-            fontSize: `${text.size}px`,
-            animationDuration: `${text.duration}s`,
-            animationDelay: `${text.delay}s`,
+            left: text.left,
+            top: "-25%",
+            fontSize: text.size,
+            animationDuration: text.duration,
+            animationDelay: text.delay,
             opacity: text.opacity,
+            willChange: "transform, opacity",
           }}
         >
           lucas.rest

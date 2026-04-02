@@ -32,15 +32,15 @@ const features = [
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black">
-      {/* Background */}
+    <main className="relative min-h-screen bg-black">
+      {/* Background animation */}
       <FloatingTextBackground />
 
-      {/* Content */}
+      {/* Foreground content */}
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         {/* Hero */}
         <section className="flex min-h-[88vh] flex-col items-center justify-center text-center">
-          <span className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-widest text-neutral-400">
+          <span className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-widest text-neutral-400 backdrop-blur-sm">
             <span className="h-1.5 w-1.5 rounded-full bg-neutral-400" />
             MyRepository
           </span>
@@ -80,7 +80,6 @@ export default function HomePage() {
             </Button>
           </div>
 
-          {/* Divider */}
           <div className="mt-24 h-px w-24 bg-white/10" />
         </section>
 
