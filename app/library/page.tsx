@@ -24,11 +24,11 @@ export default async function LibraryPage() {
         <p className="mb-3 text-xs uppercase tracking-widest text-neutral-600">
           Archive
         </p>
-        <h1
-          className="mb-4 text-4xl text-white md:text-5xl"
-        >
+
+        <h1 className="mb-4 text-4xl text-white md:text-5xl">
           Library
         </h1>
+
         <p className="max-w-md text-sm leading-relaxed text-neutral-500">
           Everything currently stored in the repository, now coming from the real
           database.
@@ -43,18 +43,31 @@ export default async function LibraryPage() {
         <div className="grid gap-5 sm:grid-cols-2">
           {entries.map((entry: any) => (
             <Link key={entry.id} href={`/library/${entry.slug}`}>
-              <Card className="h-full overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-colors hover:bg-white/[0.04]">
+              <Card className="h-full overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-all duration-300 hover:bg-white/[0.04] hover:border-white/[0.1]">
+                
                 {entry.imageUrl ? (
-                  <div className="relative aspect-[16/8] w-full overflow-hidden border-b border-white/5">
+                  <div className="relative h-56 md:h-64 lg:h-72 w-full overflow-hidden border-b border-white/5">
+                    
+                    {/* Background blur */}
+                    <Image
+                      src={entry.imageUrl}
+                      alt=""
+                      fill
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      className="object-cover scale-110 blur-md opacity-20"
+                    />
+
+                    {/* Main poster */}
                     <Image
                       src={entry.imageUrl}
                       alt={entry.title}
                       fill
-                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      className="relative z-10 object-contain"
                     />
                   </div>
                 ) : (
-                  <div className="flex aspect-[16/8] items-center justify-center border-b border-white/5 bg-white/[0.02] text-sm text-neutral-600">
+                  <div className="flex h-56 md:h-64 lg:h-72 items-center justify-center border-b border-white/5 bg-white/[0.02] text-sm text-neutral-600">
                     No cover image
                   </div>
                 )}
@@ -82,19 +95,21 @@ export default async function LibraryPage() {
                   </div>
 
                   <CardTitle
-  className="text-base text-white"
-  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
->
-  {entry.title}
-</CardTitle>
+                    className="text-base text-white"
+                    style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                  >
+                    {entry.title}
+                  </CardTitle>
 
                   {entry.creator && (
-                    <p className="text-sm text-neutral-500">{entry.creator}</p>
+                    <p className="text-sm text-neutral-500">
+                      {entry.creator}
+                    </p>
                   )}
                 </CardHeader>
 
                 <CardContent>
-                  <p className="mb-4 text-sm leading-relaxed text-neutral-500">
+                  <p className="mb-4 line-clamp-4 text-sm leading-relaxed text-neutral-500">
                     {entry.description ?? "No description yet."}
                   </p>
 
@@ -103,6 +118,7 @@ export default async function LibraryPage() {
                       <p className="mb-1 text-[10px] uppercase tracking-widest text-neutral-600">
                         Personal Note
                       </p>
+
                       <p className="line-clamp-3 text-sm leading-relaxed text-neutral-400">
                         {entry.personalNote}
                       </p>

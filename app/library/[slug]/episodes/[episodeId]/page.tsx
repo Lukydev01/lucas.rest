@@ -66,7 +66,6 @@ export default async function EpisodePage({
 
           <h1
             className="text-3xl text-white md:text-4xl"
-            style={{ fontFamily: "'Georgia', serif" }}
           >
             {entry.title}
           </h1>
@@ -124,7 +123,6 @@ export default async function EpisodePage({
       <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] p-5">
         <h2
           className="mb-3 text-2xl text-white"
-          style={{ fontFamily: "'Georgia', serif" }}
         >
           {episode.title}
         </h2>

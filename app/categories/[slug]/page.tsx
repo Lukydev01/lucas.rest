@@ -38,15 +38,14 @@ export default async function CategoryPage({
           Category
         </p>
 
-        <h1
-          className="mb-4 text-4xl text-white md:text-5xl"
-        >
+        <h1 className="mb-4 text-4xl text-white md:text-5xl">
           {category.name}
         </h1>
 
         <p className="max-w-xl text-sm leading-relaxed text-neutral-500">
           {category.entries.length}{" "}
-          {category.entries.length === 1 ? "entry" : "entries"} in this category.
+          {category.entries.length === 1 ? "entry" : "entries"} in this
+          category.
         </p>
       </div>
 
@@ -58,18 +57,31 @@ export default async function CategoryPage({
         <div className="grid gap-5 sm:grid-cols-2">
           {category.entries.map((entry: any) => (
             <Link key={entry.id} href={`/library/${entry.slug}`}>
-              <Card className="h-full overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-colors hover:bg-white/[0.04]">
+              <Card className="h-full overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-all duration-300 hover:bg-white/[0.04] hover:border-white/[0.1]">
+                
                 {entry.imageUrl ? (
-                  <div className="relative aspect-[16/8] w-full overflow-hidden border-b border-white/5">
+                  <div className="relative h-56 md:h-64 lg:h-72 w-full overflow-hidden border-b border-white/5">
+                    
+                    {/* fundo blur */}
+                    <Image
+                      src={entry.imageUrl}
+                      alt=""
+                      fill
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      className="object-cover scale-110 blur-md opacity-20"
+                    />
+
+                    {/* capa principal */}
                     <Image
                       src={entry.imageUrl}
                       alt={entry.title}
                       fill
-                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      className="relative z-10 object-contain"
                     />
                   </div>
                 ) : (
-                  <div className="flex aspect-[16/8] items-center justify-center border-b border-white/5 bg-white/[0.02] text-sm text-neutral-600">
+                  <div className="flex h-56 md:h-64 lg:h-72 items-center justify-center border-b border-white/5 bg-white/[0.02] text-sm text-neutral-600">
                     No cover image
                   </div>
                 )}
@@ -88,18 +100,23 @@ export default async function CategoryPage({
                   </div>
 
                   <CardTitle
-                    className="text-lg leading-snug text-white"
+                    className="text-base text-white"
+                    style={{
+                      fontFamily: "Georgia, 'Times New Roman', serif",
+                    }}
                   >
                     {entry.title}
                   </CardTitle>
 
                   {entry.creator && (
-                    <p className="text-sm text-neutral-500">{entry.creator}</p>
+                    <p className="text-sm text-neutral-500">
+                      {entry.creator}
+                    </p>
                   )}
                 </CardHeader>
 
                 <CardContent>
-                  <p className="mb-4 text-sm leading-relaxed text-neutral-500">
+                  <p className="line-clamp-4 text-sm leading-relaxed text-neutral-500">
                     {entry.description ?? "No description yet."}
                   </p>
                 </CardContent>
